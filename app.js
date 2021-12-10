@@ -1,21 +1,30 @@
 require("dotenv").config();
+
 const Express = require("express");
 const app = Express();
 const dbConnection = require("./db");
+const middlewares = require('./middleware')
+const controllers = require("./controllers");
 
 app.use(Express.json());
 
 const controllers = require("./controllers");
 
 app.use("/user", controllers.userController);
+app.use("/expense", controllers.expenseController);
+app.use("/income", controllers.incomeController);
 
 dbConnection.authenticate()
-    .then(() => dbConnection.sync())
-    .then(() => {
-        app.listen(6000, () => {
-            console.log(`[Server]: App is listening on 6000.`);
-        });
+.then(() => {
+    let test = dbConnection.sync()
+})
+.then(() => {
+    app.listen(process.env.PORT, () => {
+        console.log(`[Server] listening on port ${process.env.PORT}`)
     })
-    .catch((err) => {
-        console.log(`[Server]: Server crashed. Error = ${err}`);
-    })
+})
+.catch((err) => {
+    console.log(`[Server] crashed`)
+    console.log(err)
+})
+
