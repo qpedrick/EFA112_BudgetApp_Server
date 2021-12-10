@@ -1,15 +1,18 @@
 require("dotenv").config();
-const Express = require('express');
+
+const Express = require("express");
 const app = Express();
 const dbConnection = require("./db");
 const middlewares = require('./middleware')
 const controllers = require("./controllers");
 
-
-
 app.use(Express.json());
+
+const controllers = require("./controllers");
+
 app.use("/user", controllers.userController);
-app.use("/budget", controllers.budgetController);
+app.use("/expense", controllers.expenseController);
+app.use("/income", controllers.incomeController);
 
 dbConnection.authenticate()
 .then(() => {
@@ -24,3 +27,4 @@ dbConnection.authenticate()
     console.log(`[Server] crashed`)
     console.log(err)
 })
+
