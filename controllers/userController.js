@@ -17,7 +17,7 @@ router.post("/register", async (req, res) => {
         res.status(201).json({
             message: "User successfully registered",
             user: User,
-            sessionToken: token
+            // sessionToken: token
         });
     } catch (err) {
         if (err instanceof UniqueConstraintError) {
@@ -46,7 +46,7 @@ router.post("/login", async (req, res) => {
 
             let passwordComparison = await bcrypt.compare(password, loginUser.password);
 
-            if (passwordComaparison) {
+            if (passwordComparison) {
 
                 let token = jwt.sign({ id: loginUser.id }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 });
 
