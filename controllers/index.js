@@ -1,5 +1,9 @@
 module.exports = {
-    expenseController: require("./expenseController"),
-    incomeController: require("./incomeController"),
-    userController: require("./userController")
-}
+
+    userController: require('./usercontroller'),
+    expenseController: require('./expenseController'),
+    incomeController: require('./incomeController')
+};
+
+
+
