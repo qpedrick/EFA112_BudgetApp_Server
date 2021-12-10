@@ -25,29 +25,40 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
 
     const {
-        payChecks,
-        investments,
-        reimbursements,
-        misc,
+        Transportantion,
+        Housing,
+        Food,
+        PersonalCare,
+        Lifestyle,
+        Health,
+        Insurance,
+        Debt,
+        Savings,
+        Giving
     } = req.body
 
-    console.log(nameOfPie, baseOfPie, "----------------")
 
     try {
-        const Income = await IncomeModel.create({
-            payChecks,
-            investments,
-            reimbursements,
-            misc,
+        const Expense = await ExpenseModel.create({
+            Transportantion,
+            Housing,
+            Food,
+            PersonalCare,
+            Lifestyle,
+            Health,
+            Insurance,
+            Debt,
+            Savings,
+            Giving
         })
 
         res.status(201).json({
-            message: "Income Source made suceessfully",
-            Pie,
+            message: "Expense Source made suceessfully",
+            Expense,
         })
     } catch (err) {
         res.status(500).json({
-            message: `Failed to create source: ${err}`
+            message: `Failed to create Expense source: ${err}`
         })
     }
 })
@@ -55,26 +66,26 @@ router.post("/", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
     try {
-        await IncomeModel.destroy({
+        await ExpenseModel.destroy({
             where: {
                 id: req.params.id
             }
         }).then((result) => {
             if (result) {
                 res.status(200).json({
-                    message: "Income successfully deleted",
-                    deletedPie: result
+                    message: "Expense successfully deleted",
+                    deletedExpense: result
                 })
             } else {
                 res.status(400).json({
-                    message: "Income does not exist"
+                    message: "Expense does not exist"
                 })
             }
 
         })
     } catch (err) {
         res.status(500).json({
-            message: `Failed to delete source: ${err}`
+            message: `Failed to delete Expense source: ${err}`
         })
     }
 })

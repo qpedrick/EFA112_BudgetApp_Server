@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
         misc,
     } = req.body
 
-    console.log(nameOfPie, baseOfPie, "----------------")
+
 
     try {
         const Income = await IncomeModel.create({
@@ -43,11 +43,11 @@ router.post("/", async (req, res) => {
 
         res.status(201).json({
             message: "Income Source made suceessfully",
-            Pie,
+            Income,
         })
     } catch (err) {
         res.status(500).json({
-            message: `Failed to create source: ${err}`
+            message: `Failed to create Income source: ${err}`
         })
     }
 })
@@ -63,7 +63,7 @@ router.delete("/:id", async (req, res) => {
             if (result) {
                 res.status(200).json({
                     message: "Income successfully deleted",
-                    deletedPie: result
+                    deletedIncome: result
                 })
             } else {
                 res.status(400).json({
@@ -74,7 +74,7 @@ router.delete("/:id", async (req, res) => {
         })
     } catch (err) {
         res.status(500).json({
-            message: `Failed to delete source: ${err}`
+            message: `Failed to delete Income source: ${err}`
         })
     }
 })
