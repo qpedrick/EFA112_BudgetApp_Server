@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("../db");
 
-const Expense = db.define("income", {
+const Expense = db.define("expense", {
     Transportation: {
         type: DataTypes.INTEGER,
         allowNull: true , 
