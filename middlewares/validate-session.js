@@ -1,13 +1,13 @@
 const jwt = require("jsonwebtoken");
-const { UserModel } = require("../models")
-;
+const { UserModel } = require("../models");
 const validateSession = async (req, res, next) => {
 
     if (req.method == "OPTIONS") {
         next();
     } else if (req.headers.authorization && req.headers.authorization.includes("Bearer")) {
         const { authorization } = req.headers;
-        console.log('authorization --->' , authorization);
+        console.log('authorization ----->' , authorization);
+
         const payload = authorization 
         ? jwt.verify(
             authorization.includes('Bearer') 
@@ -16,14 +16,15 @@ const validateSession = async (req, res, next) => {
             process.env.JWT_SECRET
             ) 
             : undefined;
-        console.log('payload --->', payload);
+        console.log('payload ----->', payload);
+
         if (payload) {
             const foundUser = await UserModel.findOne({
                 where: { id: payload.id }
             });
-            console.log("found User -->", foundUser);
+            console.log("found User ----->", foundUser);
             if (foundUser) {
-                console.log('request --->', req);
+                console.log('request ----->', req);
                 req.user = foundUser;
                 next();
             } else {
@@ -38,7 +39,7 @@ const validateSession = async (req, res, next) => {
         }
     } else {
         res.status(403).json({
-            message: "forbidden"
+            message: "Forbidden"
         });
     }
 };
