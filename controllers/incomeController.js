@@ -10,7 +10,7 @@ const router = require("express").Router()
 router.get("/", async (req, res) => {
 
     try {
-        const allIncomeSources = await PieModel.findAll()
+        const allIncomeSources = await IncomeModel.findAll()
         // the response is sent with a status and instance of info that's turned into an object
         res.status(200).json(allIncomeSources)
     } catch (err) {
