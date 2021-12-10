@@ -1,7 +1,7 @@
 
 const { response } = require("express")
 const { ExpenseModel } = require("../models")
-const { validateSession } = require("../middleware")
+const { validateSession } = require("../middlewares")
 
 const router = require("express").Router()
 
