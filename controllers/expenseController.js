@@ -22,10 +22,21 @@ router.get("/", async (req, res) => {
 })
 
 // Create One
-router.post("/", validateSession, async (req, res) => {
+router.post("/create", async (req, res) => {
 
-    const {
-        Transportantion,
+    const {Transportation,
+        Housing,
+        Food,
+        PersonalCare,
+        Lifestyle,
+        Health,
+        Insurance,
+        Debt,
+        Savings,
+        Giving} = req.body;
+    
+    const ExpenseEntry = {
+        Transportation,
         Housing,
         Food,
         PersonalCare,
@@ -35,33 +46,20 @@ router.post("/", validateSession, async (req, res) => {
         Debt,
         Savings,
         Giving
-    } = req.body
+    } 
 
-
-    try {
-        const Expense = await ExpenseModel.create({
-            Transportantion,
-            Housing,
-            Food,
-            PersonalCare,
-            Lifestyle,
-            Health,
-            Insurance,
-            Debt,
-            Savings,
-            Giving
-        })
-
-        res.status(201).json({
-            message: "Expense Source made suceessfully",
-            Expense,
-        })
-    } catch (err) {
-        res.status(500).json({
-            message: `Failed to create Expense source: ${err}`
-        })
-    }
-})
+        try {
+            const newExpense = await ExpenseModel.create(ExpenseEntry);
+            res.status(201).json({
+                message: "Expense Source made suceessfully",
+                ExpenseEntry,
+            })
+        } catch (err) {
+            res.status(500).json({
+                message: `Failed to create Expense source: ${err}`
+            })
+        }
+    })
 
 
 router.delete("/:id", validateSession, async (req, res) => {
@@ -89,6 +87,42 @@ router.delete("/:id", validateSession, async (req, res) => {
         })
     }
 })
+
+router.put("/:id", async (req, res) => {
+    const {Transportation,
+        Housing,
+        Food,
+        PersonalCare,
+        Lifestyle,
+        Health,
+        Insurance,
+        Debt,
+        Savings,
+        Giving} = req.body;
+
+    const query = {
+        where: {
+            id: req.params.id
+        }
+    };
+    const updatedModel = {Transportation,
+        Housing,
+        Food,
+        PersonalCare,
+        Lifestyle,
+        Health,
+        Insurance,
+        Debt,
+        Savings,
+        Giving};
+    try {
+        const update = await ExpenseModel.update(updatedModel, query);
+        res.status(200).json({message: "Expense successfully edited"});
+    } catch (err) {
+        res.status(500).json ({ error: err });
+    }
+});
+
 
 
 module.exports = router
