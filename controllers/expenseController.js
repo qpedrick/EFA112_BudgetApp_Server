@@ -7,7 +7,7 @@ const router = require("express").Router()
 
 
 
-router.get("/", async (req, res) => {
+router.get("/", validateSession, async (req, res) => {
 
     try {
         const allExpenseSources = await ExpenseModel.findAll()
@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
 })
 
 // Create One
-router.post("/create", async (req, res) => {
+router.post("/create", validateSession, async (req, res) => {
 
     const {Transportation,
         Housing,
@@ -88,7 +88,7 @@ router.delete("/:id", validateSession, async (req, res) => {
     }
 })
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", validateSession, async (req, res) => {
     const {Transportation,
         Housing,
         Food,

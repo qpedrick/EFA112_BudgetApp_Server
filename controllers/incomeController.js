@@ -6,7 +6,7 @@ const router = require("express").Router()
 
 
 
-router.get("/", async (req, res) => {
+router.get("/", validateSession, async (req, res) => {
 
     try {
         const allIncomeSources = await IncomeModel.findAll()
@@ -73,7 +73,7 @@ router.delete("/:id", validateSession, async (req, res) => {
     }
 })
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", validateSession, async (req, res) => {
     const {Paychecks,
         Investments,
         Reimbursements,
