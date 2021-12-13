@@ -1,8 +1,7 @@
 
-const { response } = require("express")
 const { IncomeModel } = require("../models")
-const validateSession  = require("../middlewares/validate-session")
-
+const { validateSession } = require("../middlewares")
+const Income = require('../models/income')
 const router = require("express").Router()
 
 
@@ -22,28 +21,23 @@ router.get("/", async (req, res) => {
 })
 
 // Create One
-router.post("/", validateSession, async (req, res) => {
+router.post("/create", async (req, res) => {
 
-    const {
-        payChecks,
-        investments,
-        reimbursements,
-        misc,
-    } = req.body
+const { Paychecks, Investments, Reimbursements, Misc } = req.body;
 
-
+const IncomeEntry = {
+        Paychecks,
+        Investments,
+        Reimbursements,
+        Misc,
+    }
 
     try {
-        const Income = await IncomeModel.create({
-            payChecks,
-            investments,
-            reimbursements,
-            misc,
-        })
+        const newIncome = await IncomeModel.create(IncomeEntry);
 
         res.status(201).json({
             message: "Income Source made suceessfully",
-            Income,
+            IncomeEntry,
         })
     } catch (err) {
         res.status(500).json({
@@ -53,7 +47,7 @@ router.post("/", validateSession, async (req, res) => {
 })
 
 
-router.delete("/:id", validateSession, async (req, res) => {
+router.delete("/:id", async (req, res) => {
     try {
         await IncomeModel.destroy({
             where: {
