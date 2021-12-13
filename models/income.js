@@ -22,6 +22,9 @@ const Income = db.define("income", {
         allowNull: true , 
 
     },
+    owner:{
+        type: DataTypes.INTEGER
+    }
 });
 
 module.exports = Income;

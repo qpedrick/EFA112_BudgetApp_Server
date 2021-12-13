@@ -1,16 +1,20 @@
 
-const { response } = require("express")
 const { IncomeModel } = require("../models")
-const { validateSession } = require("../middlewares")
-
+const validateSession = require("../middlewares/validate-session")
+const Income = require('../models/income')
 const router = require("express").Router()
 
 
 
-router.get("/", async (req, res) => {
-
+router.get("/", validateSession, async (req, res) => {
+    let {id} = req.user
     try {
-        const allIncomeSources = await IncomeModel.findAll()
+        const allIncomeSources = await IncomeModel.findAll({
+            where:
+            {
+                owner: id
+            }
+        })
         // the response is sent with a status and instance of info that's turned into an object
         res.status(200).json(allIncomeSources)
     } catch (err) {
@@ -22,28 +26,25 @@ router.get("/", async (req, res) => {
 })
 
 // Create One
-router.post("/", async (req, res) => {
+router.post("/create", validateSession, async (req, res) => {
 
-    const {
-        payChecks,
-        investments,
-        reimbursements,
-        misc,
-    } = req.body
+    const { Paychecks, Investments, Reimbursements, Misc } = req.body;
+    const { id } = req.user
 
-
+    const IncomeEntry = {
+        Paychecks,
+        Investments,
+        Reimbursements,
+        Misc,
+        owner: id
+    }
 
     try {
-        const Income = await IncomeModel.create({
-            payChecks,
-            investments,
-            reimbursements,
-            misc,
-        })
+        const newIncome = await IncomeModel.create(IncomeEntry, req.user.id);
 
         res.status(201).json({
             message: "Income Source made suceessfully",
-            Income,
+            IncomeEntry,
         })
     } catch (err) {
         res.status(500).json({
@@ -53,13 +54,15 @@ router.post("/", async (req, res) => {
 })
 
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", validateSession, async (req, res) => {
     try {
         await IncomeModel.destroy({
             where: {
-                id: req.params.id
+                id: req.params.id,
+                owner: req.user.id
             }
-        }).then((result) => {
+        }
+        ).then((result) => {
             if (result) {
                 res.status(200).json({
                     message: "Income successfully deleted",
@@ -79,5 +82,33 @@ router.delete("/:id", async (req, res) => {
     }
 })
 
+router.put("/:id", validateSession, async (req, res) => {
+    const { Paychecks,
+        Investments,
+        Reimbursements,
+        Misc } = req.body;
+
+    const incomeId = req.params.id
+    const userId = req.user.id
+    
+    const query = {
+        where: {
+            id: incomeId,
+            owner: userId
+        }
+    };
+    const updatedModel = {
+        Paychecks,
+        Investments,
+        Reimbursements,
+        Misc
+    };
+    try {
+        const update = await IncomeModel.update(updatedModel, query);
+        res.status(200).json({ message: "Income successfully edited" });
+    } catch (err) {
+        res.status(500).json({ error: err });
+    }
+});
 
 module.exports = router
