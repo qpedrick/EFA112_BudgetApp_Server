@@ -1,6 +1,6 @@
 
 const { IncomeModel } = require("../models")
-const { validateSession } = require("../middlewares")
+const validateSession  = require("../middlewares/validate-session")
 const Income = require('../models/income')
 const router = require("express").Router()
 
@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
 })
 
 // Create One
-router.post("/create", async (req, res) => {
+router.post("/create", validateSession, async (req, res) => {
 
 const { Paychecks, Investments, Reimbursements, Misc } = req.body;
 
@@ -47,7 +47,7 @@ const IncomeEntry = {
 })
 
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", validateSession, async (req, res) => {
     try {
         await IncomeModel.destroy({
             where: {
