@@ -105,7 +105,7 @@ router.put("/:id", validateSession, async (req, res) => {
     };
     try {
         const update = await IncomeModel.update(updatedModel, query);
-        res.status(200).json({ message: "Expense successfully edited" });
+        res.status(200).json({ message: "Income successfully edited" });
     } catch (err) {
         res.status(500).json({ error: err });
     }
