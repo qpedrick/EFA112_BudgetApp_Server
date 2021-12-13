@@ -29,7 +29,7 @@ const IncomeEntry = {
         Paychecks,
         Investments,
         Reimbursements,
-        Misc,
+        Misc
     }
 
     try {
@@ -73,5 +73,28 @@ router.delete("/:id", async (req, res) => {
     }
 })
 
+router.put("/:id", async (req, res) => {
+    const {Paychecks,
+        Investments,
+        Reimbursements,
+        Misc} = req.body;
+
+    const query = {
+        where: {
+            id: req.params.id
+        }
+    };
+    const updatedModel = {
+        Paychecks,
+        Investments,
+        Reimbursements,
+        Misc};
+    try {
+        const update = await IncomeModel.update(updatedModel, query);
+        res.status(200).json({message: "Expense successfully edited"});
+    } catch (err) {
+        res.status(500).json ({ error: err });
+    }
+});
 
 module.exports = router
