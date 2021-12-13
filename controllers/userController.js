@@ -4,6 +4,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { UniqueConstraintError } = require("sequelize");
 
+const { validateSession } = require("../middlewares");
+
 router.post("/register", async (req, res) => {
     let { email, password } = req.body.user;
     try {
