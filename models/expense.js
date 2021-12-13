@@ -42,6 +42,9 @@ const Expense = db.define("expense", {
         type: DataTypes.INTEGER,
         allowNull: true ,
     },
+    owner:{
+        type: DataTypes.INTEGER
+    }
 });
 
 module.exports = Expense;

@@ -8,9 +8,13 @@ const router = require("express").Router()
 
 
 router.get("/", validateSession, async (req, res) => {
-
+    let {id} = req.user
     try {
-        const allExpenseSources = await ExpenseModel.findAll()
+        const allExpenseSources = await ExpenseModel.findAll({
+            where:{
+                owner: id
+            }
+        })
         // the response is sent with a status and instance of info that's turned into an object
         res.status(200).json(allExpenseSources)
     } catch (err) {
@@ -34,7 +38,9 @@ router.post("/create", validateSession, async (req, res) => {
         Debt,
         Savings,
         Giving} = req.body;
-    
+
+    const { id } = req.user
+
     const ExpenseEntry = {
         Transportation,
         Housing,
@@ -45,11 +51,12 @@ router.post("/create", validateSession, async (req, res) => {
         Insurance,
         Debt,
         Savings,
-        Giving
+        Giving,
+        owner: id
     } 
 
         try {
-            const newExpense = await ExpenseModel.create(ExpenseEntry);
+            const newExpense = await ExpenseModel.create(ExpenseEntry, req.user.id);
             res.status(201).json({
                 message: "Expense Source made suceessfully",
                 ExpenseEntry,
@@ -66,7 +73,8 @@ router.delete("/:id", validateSession, async (req, res) => {
     try {
         await ExpenseModel.destroy({
             where: {
-                id: req.params.id
+                id: req.params.id,         
+                owner: req.user.id
             }
         }).then((result) => {
             if (result) {
@@ -100,9 +108,13 @@ router.put("/:id", validateSession, async (req, res) => {
         Savings,
         Giving} = req.body;
 
+        const expenseId = req.params.id
+        const userId = req.user.id
+
     const query = {
         where: {
-            id: req.params.id
+            id: expenseId,
+            owner: userId
         }
     };
     const updatedModel = {Transportation,
@@ -114,7 +126,9 @@ router.put("/:id", validateSession, async (req, res) => {
         Insurance,
         Debt,
         Savings,
-        Giving};
+        Giving
+    };
+    
     try {
         const update = await ExpenseModel.update(updatedModel, query);
         res.status(200).json({message: "Expense successfully edited"});

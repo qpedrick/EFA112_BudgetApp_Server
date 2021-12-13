@@ -13,7 +13,7 @@ app.use("/expense", controllers.expenseController);
 app.use("/income", controllers.incomeController);
 
 dbConnection.authenticate()
-    .then(() => dbConnection.sync()) //{force:true}
+    .then(() => dbConnection.sync())
     .then(() => {
         app.listen(process.env.PORT, () => {
             console.log(`[Server] listening on port ${process.env.PORT}`)
