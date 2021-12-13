@@ -90,5 +90,37 @@ router.delete("/:id", async (req, res) => {
     }
 })
 
+router.put("/:id", async (req, res) => {
+    const {
+        Transportantion,
+        Housing,
+        Food,
+        PersonalCare,
+        Lifestyle,
+        Health,
+        Insurance,
+        Debt,
+        Savings,
+        Giving
+    } = req.body
+    const updatedExpenses = {
+        Transportantion,
+        Housing,
+        Food,
+        PersonalCare,
+        Lifestyle,
+        Health,
+        Insurance,
+        Debt,
+        Savings,
+        Giving};
+    try {
+        const update = await ExpenseModel.update(updatedExpenses, req.params.id);
+        res.status(200).json(update);
+    } catch (err) {
+        res.status(500).json ({ error: err });
+    }
+});
+
 
 module.exports = router

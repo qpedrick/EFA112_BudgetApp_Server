@@ -25,20 +25,20 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
 
     const {
-        payChecks,
-        investments,
-        reimbursements,
-        misc,
+        Paychecks,
+        Investments,
+        Reimbursements,
+        Misc,
     } = req.body
 
 
 
     try {
         const Income = await IncomeModel.create({
-            payChecks,
-            investments,
-            reimbursements,
-            misc,
+            Paychecks,
+            Investments,
+            Reimbursements,
+            Misc,
         })
 
         res.status(201).json({
@@ -78,6 +78,24 @@ router.delete("/:id", async (req, res) => {
         })
     }
 })
+
+
+router.put("/:id", async (req, res) => {
+    const {
+        Paychecks,
+        Investments,
+        Reimbursements,
+        Misc,
+    } = req.body
+    const updatedIncome = { payChecks, investments, reimbursements, misc};
+    try {
+        const update = await IncomeModel.update(updatedIncome, req.params.id);
+        res.status(200).json(update);
+    } catch (err) {
+        res.status(500).json ({ error: err });
+    }
+});
+
 
 
 module.exports = router
