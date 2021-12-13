@@ -2,7 +2,9 @@ const router = require("express").Router();
 const { UserModel } = require("../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { UniqueConstraintError } = require("sequelize/dist");
+const { UniqueConstraintError } = require("sequelize");
+const { validateSession } = require("../middlewares");
+
 
 router.post("/register", async (req, res) => {
     let { email, password } = req.body.user;

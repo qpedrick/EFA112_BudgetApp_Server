@@ -5,5 +5,5 @@ const ExpenseModel = require('./expense')
 module.exports = { 
     UserModel,
     IncomeModel,
-    ExpenseModel
+    ExpenseModel,
 };

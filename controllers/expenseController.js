@@ -1,7 +1,7 @@
 
 const { response } = require("express")
 const { ExpenseModel } = require("../models")
-const { validateSession } = require("../middlewares")
+const validateSession = require("../middlewares/validate-session")
 
 const router = require("express").Router()
 
@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
 })
 
 // Create One
-router.post("/", async (req, res) => {
+router.post("/", validateSession, async (req, res) => {
 
     const {
         Transportantion,
@@ -64,7 +64,7 @@ router.post("/", async (req, res) => {
 })
 
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", validateSession, async (req, res) => {
     try {
         await ExpenseModel.destroy({
             where: {
