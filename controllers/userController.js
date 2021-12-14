@@ -6,15 +6,6 @@ const { UniqueConstraintError } = require("sequelize");
 
 const { validateSession } = require("../middlewares");
 
-router.get('/', async(req,res) => {
-    try {
-        const User = await UserModel.findAll() 
-        res.status(201).json(User)
-    }catch(err){
-        console.log(err)
-    }
-})
-
 router.post("/register", async (req, res) => {
     let { email, password } = req.body.user;
     try {
@@ -27,13 +18,13 @@ router.post("/register", async (req, res) => {
 
         res.status(201).json({
             message: "User successfully registered",
-            user: User,
+            //user: User,
             sessionToken: token
         });
     } catch (err) {
         if (err instanceof UniqueConstraintError) {
             res.status(409).json({
-                message: "Incorrect login",
+                message: "Please use a seperate email",
             });
         } else {
             res.status(500).json({

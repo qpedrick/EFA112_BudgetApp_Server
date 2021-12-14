@@ -59,7 +59,7 @@ router.post("/create", validateSession, async (req, res) => {
             const newExpense = await ExpenseModel.create(ExpenseEntry, req.user.id);
             res.status(201).json({
                 message: "Expense Source made suceessfully",
-                ExpenseEntry,
+                Entry,
             })
         } catch (err) {
             res.status(500).json({
