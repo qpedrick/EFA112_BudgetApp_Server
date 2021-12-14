@@ -15,17 +15,16 @@ router.get("/", validateSession, async (req, res) => {
                 owner: id
             }
         })
-        // the response is sent with a status and instance of info that's turned into an object
+
         res.status(200).json(allExpenseSources)
     } catch (err) {
-        // send a response with an error status code and an object showing the error
+
         res.status(500).json({
             error: err,
         })
     }
 })
 
-// Create One
 router.post("/create", validateSession, async (req, res) => {
 
     const {Transportation,
