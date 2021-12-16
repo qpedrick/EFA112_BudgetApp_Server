@@ -4,6 +4,3 @@ module.exports = {
     expenseController: require('./expenseController'),
     incomeController: require('./incomeController')
 };
-
-
-
