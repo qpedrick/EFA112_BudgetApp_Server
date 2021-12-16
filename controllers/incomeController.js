@@ -1,4 +1,3 @@
-
 const { IncomeModel } = require("../models")
 const validateSession = require("../middlewares/validate-session")
 const Income = require('../models/income')
