@@ -13,7 +13,7 @@
     "url": "git+https://github.com/qpedrick/EFA112_BudgetApp_Server.git"
   },
   "keywords": [],
-  "author": "Brandon Nguyen",
+  "author": "Kiersten Gamby, Brandon Nguyen, Quinton Pedrick, Andrew Wesson",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^1.19.4"
